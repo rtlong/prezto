@@ -15,5 +15,66 @@ fi
 alias ll='ls -laF'
 alias g=git
 alias gs='git s'
+alias bx='bundle exec'
+alias rake='bx rake'
+alias rails='bx rails'
+alias restart-mysql='launchctl stop homebrew.mxcl.mysql && launchctl start homebrew.mxcl.mysql'
+alias restart-solr='launchctl stop com.apache.Solr && launchctl start com.apache.Solr'
+alias platform='cd ~/Code/platform'
+alias pow-restart-platform='powify restart platform.goodguide'
+alias watch-rails-log='tail -f log/development.log'
+alias reload='source ~/.zshrc'
 
-export PATH="./node_modules/.bin:/usr/local/share/npm/bin:/usr/local/bin:$PATH"
+export PATH="$HOME/.bin:./node_modules/.bin:/usr/local/share/npm/bin:/usr/local/bin:$PATH"
+
+########################################################################
+# vi-mode (based on oh-my-zsh plugin)
+########################################################################
+
+function zle-keymap-select zle-line-init
+{
+    # change cursor shape in iTerm2
+    case $KEYMAP in
+        vicmd)      print -n -- "\E]50;CursorShape=0\C-G";;  # block cursor
+        viins|main) print -n -- "\E]50;CursorShape=1\C-G";;  # line cursor
+    esac
+
+    zle reset-prompt
+    zle -R
+}
+
+function zle-line-finish
+{
+    print -n -- "\E]50;CursorShape=0\C-G"  # block cursor
+}
+
+zle -N zle-line-init
+zle -N zle-line-finish
+zle -N zle-keymap-select
+
+bindkey -v
+
+bindkey -v 'jk' vi-cmd-mode
+bindkey -v 'kj' vi-cmd-mode
+
+# # 10ms for key sequences
+# KEYTIMEOUT=1
+
+# # bindings
+
+# # move through history
+bindkey -a 'gg' beginning-of-buffer-or-history
+bindkey -a 'g~' vi-oper-swap-case
+bindkey -a G end-of-buffer-or-history
+
+# # search history ('f'ind)
+bindkey "^F" history-incremental-search-backward
+
+# # undo/redo
+bindkey -a u undo
+bindkey -a '^r' redo
+# bindkey '^?' backward-delete-char
+# bindkey '^H' backward-delete-char
+
+# # get cursor position (like vi)
+bindkey '^g' what-cursor-position
