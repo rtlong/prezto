@@ -27,18 +27,9 @@ alias pow-restart-platform='powify restart platform.goodguide'
 alias watch-rails-log='tail -f log/development.log'
 alias reload='source ~/.zshrc'
 
-export PATH="$HOME/.bin:$HOME/.rbenv/bin:$HOME./node_modules/.bin:/usr/local/share/npm/bin:/usr/local/bin:$PATH"
-
-eval "$(rbenv init -)"
-
 export RUBY_GC_MALLOC_LIMIT=1000000000
 export RUBY_FREE_MIN=500000
 export RUBY_HEAP_MIN_SLOTS=40000
-
-
-if [[ -f "$HOME/.rbenv/plugins/rbenv-plugin/bin" ]]; then
-  export PATH="$HOME/.rbenv/plugins/rbenv-plugin/bin:$PATH"
-fi
 
 ########################################################################
 # vi-mode (based on oh-my-zsh plugin)
