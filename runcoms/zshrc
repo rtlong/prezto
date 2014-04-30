@@ -13,23 +13,14 @@ fi
 
 # Customize to your needs...
 alias ll='ls -laF'
-alias g=git
-alias gs='git s'
-alias bx='bundle exec'
-alias rake='bx rake'
-alias rails='bx rails'
-alias r='rails'
 alias restart-mysql='launchctl stop homebrew.mxcl.mysql; launchctl start homebrew.mxcl.mysql'
 alias restart-solr='launchctl stop com.apache.Solr; launchctl start com.apache.Solr'
-alias platform='cd ~/Code/GoodGuide/platform'
-alias esoup='cd ~/Code/GoodGuide/platform/lib/entity_soup'
 alias pow-restart-platform='powify restart platform.goodguide'
+alias gg='cd ~/Code/Work/GoodGuide'
+alias platform='gg; cd platform'
+alias esoup='gg; cd platform/lib/entity_soup'
 alias watch-rails-log='tail -f log/development.log'
 alias reload='source ~/.zshrc'
-
-export RUBY_GC_MALLOC_LIMIT=1000000000
-export RUBY_FREE_MIN=500000
-export RUBY_HEAP_MIN_SLOTS=40000
 
 ########################################################################
 # vi-mode (based on oh-my-zsh plugin)
