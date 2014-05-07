@@ -18,6 +18,7 @@ alias restart-solr='launchctl stop com.apache.Solr; launchctl start com.apache.S
 alias pow-restart-platform='powify restart platform.goodguide'
 alias gg='cd ~/Code/Work/GoodGuide'
 alias platform='gg; cd platform'
+alias www='gg; cd www'
 alias esoup='gg; cd platform/lib/entity_soup'
 alias watch-rails-log='tail -f log/development.log'
 alias reload='source ~/.zshrc'
