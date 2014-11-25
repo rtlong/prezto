@@ -73,3 +73,5 @@ if [ -e /.dockerinit ] || [ -n "$TMUX" ]; then
 else
   export TERM="xterm-256color"
 fi
+
+eval "$(direnv hook zsh)"
