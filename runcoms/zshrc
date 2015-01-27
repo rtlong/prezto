@@ -10,12 +10,8 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
-
 # Customize to your needs...
 alias ll='ls -laF'
-alias restart-mysql='launchctl stop homebrew.mxcl.mysql; launchctl start homebrew.mxcl.mysql'
-alias restart-solr='launchctl stop com.apache.Solr; launchctl start com.apache.Solr'
-alias pow-restart-platform='powify restart platform.goodguide'
 alias gg='cd ~/Code/Work/GoodGuide'
 alias platform='gg; cd platform'
 alias www='gg; cd www'
@@ -26,6 +22,9 @@ alias goroot='cd $(go env GOROOT)'
 alias go-proj='gopath; cd src/github.com/rtlong/'
 alias watch-rails-log='tail -f log/development.log'
 alias reload='source ~/.zshrc'
+alias todo='todo.sh'
+alias t='todo.sh'
+alias vitodo='vim $todotxt'
 
 function set-window-title
 {
