@@ -16,54 +16,102 @@ alias gg='cd ~/Code/Work/GoodGuide'
 alias platform='gg; cd platform'
 alias www='gg; cd www'
 alias ggdep='gg; cd goodguide-deploy'
+alias ggpass='gg; cd shared-credentials'
 alias esoup='gg; cd platform/lib/entity_soup'
 alias gopath='cd $(go env GOPATH)'
 alias goroot='cd $(go env GOROOT)'
-alias go-proj='gopath; cd src/github.com/rtlong/'
+alias goproj='gopath; cd src/github.com/rtlong/'
 alias watch-rails-log='tail -f log/development.log'
 alias reload='source ~/.zshrc'
 alias todo='todo.sh'
 alias t='todo.sh'
 alias vitodo='vim $todotxt'
+alias git='hub'
+alias ipfs-fix='rm -rf ~/.ipfs/{logs,blocks,datastore} && ipfs init'
+alias reload-nginx='sudo kill -HUP `cat /usr/local/var/run/nginx.pid`'
+alias ssh-coreos-forward-ports='ssh -L 8182:localhost:8182 -L 2379:localhost:2379 -l core -o "IdentitiesOnly no"'
 
-function set-window-title
-{
+function cd-to-gem-source {
+  cd `bundle show $1`
+}
+
+function status-update {
+  slackline -c '#status' $@
+}
+
+function source-env {
+  if [ -f env.sh ]; then
+    source env.sh
+  fi
+}
+
+function set-window-title {
   tmux rename-window "$(basename "$PWD")"
 }
 
-function rs-get-oauth-token
-{
-  export RIGHTSCALE_TOKEN=$(curl -s -H "X-API-Version:1.5" --request POST https://us-4.rightscale.com/api/oauth2 -d "grant_type=refresh_token" -d "refresh_token=${RIGHTSCALE_REFRESH_TOKEN}" | jq -r '.access_token')
-  echo "RIGHTSCALE_TOKEN was set"
+function cdp {
+  cd ~/Code/"$(cd ~/Code; gfind . -regextype posix-egrep -maxdepth 4 \( -type d -or -type l \) \( -not -iregex '.+\/\.git(\/.*)?$' \) | RBENV_VERSION=system selecta)"
+  set-window-title
 }
+
+function work-mode {
+  tmux-named-session work ~/Code/Work/GoodGuide
+}
+
+function atm-mode {
+  tmux-named-session ATM ~/Code/Work/AllTheMusic
+}
+
+function tmux-named-session {
+  TMUX='' tmux new-session -d -s $1 -c $2 2>/dev/null
+  if [[ -n $TMUX ]]; then
+    tmux switch-client -t $1
+  else
+    tmux attach -t $1
+  fi
+}
+
+function newd {
+  mkdir -p "$1" && cd "$1" && set-window-title
+}
+
+function node_depcheck {
+  ack '(?:import .+ from |require\()['"'"'"]([a-zA-Z][^/]+).*['"'"'"]\)?' --nogroup -h --output '$1' \
+    ^node_modules/ *.js \
+    | sort | uniq >! /tmp/deps_used
+  jq -r '.dependencies + .devDependencies | keys | .[]' < package.json \
+    | sort >! /tmp/deps_defined
+  command comm -1 -3 /tmp/deps_{used,defined}
+}
+
 ########################################################################
 # vi-mode (based on oh-my-zsh plugin)
 ########################################################################
+if [ -z ${INSIDE_EMACS} ]; then
+  function zle-keymap-select zle-line-init
+  {
+      # change cursor shape in iTerm2
+      case $KEYMAP in
+          vicmd)      print -n -- "\E]50;CursorShape=0\C-G";;  # block cursor
+          viins|main) print -n -- "\E]50;CursorShape=1\C-G";;  # line cursor
+      esac
 
-function zle-keymap-select zle-line-init
-{
-    # change cursor shape in iTerm2
-    case $KEYMAP in
-        vicmd)      print -n -- "\E]50;CursorShape=0\C-G";;  # block cursor
-        viins|main) print -n -- "\E]50;CursorShape=1\C-G";;  # line cursor
-    esac
+      zle reset-prompt
+      zle -R
+  }
 
-    zle reset-prompt
-    zle -R
-}
+  function zle-line-finish
+  {
+      print -n -- "\E]50;CursorShape=0\C-G"  # block cursor
+  }
 
-function zle-line-finish
-{
-    print -n -- "\E]50;CursorShape=0\C-G"  # block cursor
-}
-
-zle -N zle-line-init
-zle -N zle-line-finish
-zle -N zle-keymap-select
+  zle -N zle-line-init
+  zle -N zle-line-finish
+  zle -N zle-keymap-select
+fi
 
 bindkey -v
 
-bindkey -v 'jk' vi-cmd-mode
 bindkey -v 'kj' vi-cmd-mode
 
 # # 10ms for key sequences
