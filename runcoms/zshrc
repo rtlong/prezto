@@ -12,23 +12,15 @@ fi
 
 # Customize to your needs...
 alias ll='ls -laF'
-alias gg='cd ~/Code/Work/GoodGuide'
-alias platform='gg; cd platform'
-alias www='gg; cd www'
-alias ggdep='gg; cd goodguide-deploy'
-alias ggpass='gg; cd shared-credentials'
-alias esoup='gg; cd platform/lib/entity_soup'
 alias gopath='cd $(go env GOPATH)'
 alias goroot='cd $(go env GOROOT)'
 alias goproj='gopath; cd src/github.com/rtlong/'
 alias watch-rails-log='tail -f log/development.log'
 alias reload='source ~/.zshrc'
-alias todo='todo.sh'
-alias t='todo.sh'
-alias vitodo='vim $todotxt'
+# alias todo='todo.sh'
+# alias t='todo.sh'
+# alias vitodo='vim $todotxt'
 alias git='hub'
-alias ipfs-fix='rm -rf ~/.ipfs/{logs,blocks,datastore} && ipfs init'
-alias reload-nginx='sudo kill -HUP `cat /usr/local/var/run/nginx.pid`'
 alias ssh-coreos-forward-ports='ssh -L 8182:localhost:8182 -L 2379:localhost:2379 -l core -o "IdentitiesOnly no"'
 
 function cd-to-gem-source {
@@ -52,10 +44,6 @@ function set-window-title {
 function cdp {
   cd ~/Code/"$(cd ~/Code; gfind . -regextype posix-egrep -maxdepth 4 \( -type d -or -type l \) \( -not -iregex '.+\/\.git(\/.*)?$' \) | RBENV_VERSION=system selecta)"
   set-window-title
-}
-
-function work-mode {
-  tmux-named-session work ~/Code/Work/GoodGuide
 }
 
 function atm-mode {
