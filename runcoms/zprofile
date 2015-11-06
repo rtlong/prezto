@@ -97,9 +97,9 @@ fi
 ssh-add -A 2>/dev/null
 
 existing_keys=$(ssh-add -l | awk '{ print "MD5:" $2 }')
-for key in $HOME/.ssh/*.key; do
-  [ -f "$key.pub" ] || ssh-keygen -f "$key" -y > "$key.pub"
-  if ! echo "$existing_keys" | grep -q "$(ssh-keygen -E md5 -l -f "$key.pub" | awk '{ print $2 }')"; then
-    ssh-add "$key" 2>/dev/null
-  fi
-done
+# for key in $HOME/.ssh/*.key; do
+#   [ -f "$key.pub" ] || ssh-keygen -f "$key" -y > "$key.pub"
+#   if ! echo "$existing_keys" | grep -q "$(ssh-keygen -E md5 -l -f "$key.pub" | awk '{ print $2 }')"; then
+#     ssh-add "$key" 2>/dev/null
+#   fi
+# done
