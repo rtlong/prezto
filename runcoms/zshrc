@@ -54,7 +54,7 @@ function atm-mode {
   tmux-named-session ATM ~/Code/Work/AllTheMusic
 }
 
-function work-mode {
+function gg-mode {
   tmux-named-session GG ~/Code/Work/GoodGuide
 }
 
