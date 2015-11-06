@@ -76,8 +76,22 @@ fi
 
 eval "$(direnv hook zsh)"
 
-[ -f "$HOME/.local/opt/nvm/nvm.sh" ] && source "$HOME/.local/opt/nvm/nvm.sh"
+local nvm_install_dir
+if [ -f "$HOME/.local/opt/nvm/nvm.sh" ]; then
+  nvm_install_dir="$HOME/.local/opt/nvm"
+else
+  nvm_install_dir=$(brew --prefix nvm 2> /dev/null)
+  if [ $? != 0 ]; then
+    unset nvm_install_dir
+  fi
+fi
 
+if [[ -n $nvm_install_dir ]]; then
+  export NVM_DIR="$HOME/.nvm"
+  mkdir -p "$NVM_DIR"
+  source "$nvm_install_dir/nvm.sh"
+  [ -e "$NVM_DIR/nvm-exec" ] || ln -s "$nvm_install_dir/nvm-exec" "$NVM_DIR/"
+fi
 
 # Add all SSH-keys stored in OSX Keychain to the agent
 ssh-add -A 2>/dev/null
