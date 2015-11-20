@@ -16,13 +16,16 @@ alias reload='source ~/.zshrc'
 # alias todo='todo.sh'
 # alias t='todo.sh'
 # alias vitodo='vim $todotxt'
-alias git='hub'
+can_exec hub && alias git='hub'
 alias ssh-coreos-forward-ports='ssh -L 8182:localhost:8182 -L 2379:localhost:2379 -l core -o "IdentitiesOnly no"'
 
 alias gg='cd ~/Code/Work/GoodGuide'
 alias ggdep='gg; cd goodguide-deploy'
 alias ggpass='gg; cd shared-credentials'
 
+function can_exec {
+	command -v $1 2>&1 >/dev/null
+}
 function cd-to-gem-source {
 	cd `bundle show $1`
 }
@@ -48,7 +51,6 @@ function cdp {
 
 function atm-mode {
 	tmux-named-session ATM ~/Code/Work/AllTheMusic
-
 }
 
 function gg-mode {
