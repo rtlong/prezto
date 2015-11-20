@@ -147,4 +147,6 @@ bindkey -a '^r' redo
 # get cursor position (like vi)
 bindkey '^g' what-cursor-position
 
+[[ -f $HOME/.profile ]] && source $HOME/.profile
+
 [[ $_zsh_trace ]] && echo "<< zshrc"
