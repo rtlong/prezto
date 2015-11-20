@@ -1,58 +1,34 @@
-#
-# Executes commands at login pre-zshrc.
-#
-# Authors:
-#   Sorin Ionescu <sorin.ionescu@gmail.com>
-#
-
-#
-# Browser
-#
+# vim: set noexpandtab tabstop=4 shiftwidth=4 softtabstop=4 filetype=zsh:
 
 if [[ "$OSTYPE" == darwin* ]]; then
-  export BROWSER='open'
+	export BROWSER='open'
 fi
-
-#
-# Editors
-#
 
 export EDITOR='vim'
 export VISUAL='vim'
 export PAGER='less'
 
-#
-# Language
-#
-
 if [[ -z "$LANG" ]]; then
-  export LANG='en_US.UTF-8'
+	export LANG='en_US.UTF-8'
 fi
-
-#
-# Paths
-#
 
 # Ensure path arrays do not contain duplicates.
 typeset -gU cdpath fpath mailpath path
 
 # Set the the list of directories that cd searches.
 # cdpath=(
-#   $cdpath
+#		$cdpath
 # )
 
 # Set the list of directories that Zsh searches for programs.
 path=(
-  $HOME/.bin
-  $HOME/.local/bin
-  $HOME/node_modules/.bin
-  $HOME/.local/go/bin
-  ${GOPATH}/bin
-  $path
+	$HOME/.bin
+	$HOME/.local/bin
+	$HOME/node_modules/.bin
+	$HOME/.local/go/bin
+	${GOPATH}/bin
+	$path
 )
-#
-# Less
-#
 
 # Set the default Less options.
 # Mouse-wheel scrolling has been disabled by -X (disable screen clearing).
@@ -62,16 +38,15 @@ export LESS='-F -g -i -M -R -w -X -z-4'
 # Set the Less input preprocessor.
 # Try both `lesspipe` and `lesspipe.sh` as either might exist on a system.
 if (( $#commands[(i)lesspipe(|.sh)] )); then
-  export LESSOPEN="| /usr/bin/env $commands[(i)lesspipe(|.sh)] %s 2>&-"
+	export LESSOPEN="| /usr/bin/env $commands[(i)lesspipe(|.sh)] %s 2>&-"
 fi
-
 
 ### FIXME
 #
 if [ -e /.dockerinit ] || [ -n "$TMUX" ]; then
-  export TERM="screen-256color"
+	export TERM="screen-256color"
 else
-  export TERM="xterm-256color"
+	export TERM="xterm-256color"
 fi
 
 eval "$(direnv hook zsh)"
@@ -98,8 +73,8 @@ ssh-add -A 2>/dev/null
 
 existing_keys=$(ssh-add -l | awk '{ print "MD5:" $2 }')
 # for key in $HOME/.ssh/*.key; do
-#   [ -f "$key.pub" ] || ssh-keygen -f "$key" -y > "$key.pub"
-#   if ! echo "$existing_keys" | grep -q "$(ssh-keygen -E md5 -l -f "$key.pub" | awk '{ print $2 }')"; then
-#     ssh-add "$key" 2>/dev/null
-#   fi
+#		[ -f "$key.pub" ] || ssh-keygen -f "$key" -y > "$key.pub"
+#		if ! echo "$existing_keys" | grep -q "$(ssh-keygen -E md5 -l -f "$key.pub" | awk '{ print $2 }')"; then
+#			ssh-add "$key" 2>/dev/null
+#		fi
 # done

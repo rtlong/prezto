@@ -1,16 +1,12 @@
-#
+# vim: set noexpandtab tabstop=4 shiftwidth=4 softtabstop=4 filetype=zsh:
+
 # Executes commands at the start of an interactive session.
-#
-# Authors:
-#   Sorin Ionescu <sorin.ionescu@gmail.com>
-#
 
 # Source Prezto.
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
-  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+	source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
-# Customize to your needs...
 alias ll='ls -laF'
 alias gopath='cd $(go env GOPATH)'
 alias goroot='cd $(go env GOROOT)'
@@ -28,56 +24,57 @@ alias ggdep='gg; cd goodguide-deploy'
 alias ggpass='gg; cd shared-credentials'
 
 function cd-to-gem-source {
-  cd `bundle show $1`
+	cd `bundle show $1`
 }
 
 function status-update {
-  slackline -c '#status' $@
+	slackline -c '#status' $@
 }
 
 function source-env {
-  if [ -f env.sh ]; then
-    source env.sh
-  fi
+	if [ -f env.sh ]; then
+		source env.sh
+	fi
 }
 
 function set-window-title {
-  tmux rename-window "$(basename "$PWD")"
+	tmux rename-window "$(basename "$PWD")"
 }
 
 function cdp {
-  cd ~/Code/"$(cd ~/Code; gfind . -regextype posix-egrep -maxdepth 4 \( -type d -or -type l \) \( -not -iregex '.+\/\.git(\/.*)?$' \) | RBENV_VERSION=system selecta)"
-  set-window-title
+	cd ~/Code/"$(cd ~/Code; gfind . -regextype posix-egrep -maxdepth 4 \( -type d -or -type l \) \( -not -iregex '.+\/\.git(\/.*)?$' \) | RBENV_VERSION=system selecta)"
+	set-window-title
 }
 
 function atm-mode {
-  tmux-named-session ATM ~/Code/Work/AllTheMusic
+	tmux-named-session ATM ~/Code/Work/AllTheMusic
+
 }
 
 function gg-mode {
-  tmux-named-session GG ~/Code/Work/GoodGuide
+	tmux-named-session GG ~/Code/Work/GoodGuide
 }
 
 function tmux-named-session {
-  TMUX='' tmux new-session -d -s $1 -c $2 2>/dev/null
-  if [[ -n $TMUX ]]; then
-    tmux switch-client -t $1
-  else
-    tmux attach -t $1
-  fi
+	TMUX='' tmux new-session -d -s $1 -c $2 2>/dev/null
+	if [[ -n $TMUX ]]; then
+		tmux switch-client -t $1
+	else
+		tmux attach -t $1
+	fi
 }
 
 function newd {
-  mkdir -p "$1" && cd "$1" && set-window-title
+	mkdir -p "$1" && cd "$1" && set-window-title
 }
 
 function node_depcheck {
-  ack '(?:import .+ from |require\()['"'"'"]([a-zA-Z][^/]+).*['"'"'"]\)?' --nogroup -h --output '$1' \
-    ^node_modules/ *.js \
-    | sort | uniq >! /tmp/deps_used
-  jq -r '.dependencies + .devDependencies | keys | .[]' < package.json \
-    | sort >! /tmp/deps_defined
-  command comm -1 -3 /tmp/deps_{used,defined}
+	ack '(?:import .+ from |require\()['"'"'"]([a-zA-Z][^/]+).*['"'"'"]\)?' --nogroup -h --output '$1' \
+		^node_modules/ *.js \
+		| sort | uniq >! /tmp/deps_used
+	jq -r '.dependencies + .devDependencies | keys | .[]' < package.json \
+		| sort >! /tmp/deps_defined
+	command comm -1 -3 /tmp/deps_{used,defined}
 }
 
 ########################################################################
@@ -127,21 +124,21 @@ bindkey -v 'kj' vi-cmd-mode
 # 10ms for key sequences
 # KEYTIMEOUT=1
 
-# # bindings
+# bindings
 
-# # move through history
+# move through history
 bindkey -a 'gg' beginning-of-buffer-or-history
 bindkey -a 'g~' vi-oper-swap-case
 bindkey -a G end-of-buffer-or-history
 
-# # search history ('f'ind)
+# search history ('f'ind)
 bindkey "^F" history-incremental-search-backward
 
-# # undo/redo
+# undo/redo
 bindkey -a u undo
 bindkey -a '^r' redo
 # bindkey '^?' backward-delete-char
 # bindkey '^H' backward-delete-char
 
-# # get cursor position (like vi)
+# get cursor position (like vi)
 bindkey '^g' what-cursor-position
