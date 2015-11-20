@@ -5,6 +5,7 @@
 #   Sorin Ionescu <sorin.ionescu@gmail.com>
 #
 
+[[ $_zsh_trace ]] && echo ">> zpreztorc"
 #
 # General
 #
@@ -134,3 +135,4 @@ zstyle ':prezto:module:syntax-highlighting' highlighters \
 
 # Integrate with iTerm2.
 # zstyle ':prezto:module:tmux:iterm' integrate 'yes'
+[[ $_zsh_trace ]] && echo "<< zpreztorc"

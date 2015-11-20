@@ -4,6 +4,7 @@
 # Authors:
 #   Sorin Ionescu <sorin.ionescu@gmail.com>
 #
+[[ $_zsh_trace ]] && echo ">> zshenv"
 
 # Ensure that a non-login, non-interactive shell has a defined environment.
 if [[ "$SHLVL" -eq 1 && ! -o LOGIN && -s "${ZDOTDIR:-$HOME}/.zprofile" ]]; then
@@ -11,3 +12,5 @@ if [[ "$SHLVL" -eq 1 && ! -o LOGIN && -s "${ZDOTDIR:-$HOME}/.zprofile" ]]; then
 fi
 
 [[ -f "$HOME/.zshenv.local" ]] && source "$HOME/.zshenv.local"
+
+[[ $_zsh_trace ]] && echo "<< zshenv"

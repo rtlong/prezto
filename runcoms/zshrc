@@ -1,11 +1,16 @@
 # vim: set noexpandtab tabstop=4 shiftwidth=4 softtabstop=4 filetype=zsh:
 
 # Executes commands at the start of an interactive session.
+[[ $_zsh_trace ]] && echo ">> zshrc"
 
 # Source Prezto.
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
 	source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
+
+function can_exec {
+	command -v $1 2>&1 >/dev/null
+}
 
 alias ll='ls -laF'
 alias gopath='cd $(go env GOPATH)'
@@ -23,9 +28,6 @@ alias gg='cd ~/Code/Work/GoodGuide'
 alias ggdep='gg; cd goodguide-deploy'
 alias ggpass='gg; cd shared-credentials'
 
-function can_exec {
-	command -v $1 2>&1 >/dev/null
-}
 function cd-to-gem-source {
 	cd `bundle show $1`
 }
@@ -144,3 +146,5 @@ bindkey -a '^r' redo
 
 # get cursor position (like vi)
 bindkey '^g' what-cursor-position
+
+[[ $_zsh_trace ]] && echo "<< zshrc"

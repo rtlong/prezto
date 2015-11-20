@@ -4,3 +4,6 @@
 # Authors:
 #   Sorin Ionescu <sorin.ionescu@gmail.com>
 #
+[[ $_zsh_trace ]] && echo ">> zlogout"
+
+[[ $_zsh_trace ]] && echo "<< zlogout"
