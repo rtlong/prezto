@@ -81,6 +81,10 @@ function node_depcheck {
 	command comm -1 -3 /tmp/deps_{used,defined}
 }
 
+docker-inspect() {
+	docker inspect $1 | jq ".[0] ${2:+| $2}"
+}
+
 ########################################################################
 # vi-mode (based on oh-my-zsh plugin)
 ########################################################################
