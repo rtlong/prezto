@@ -45,7 +45,10 @@ function set-window-title {
 }
 
 function choose-code-project {
-	can_exec pick || return 1
+	if ! can_exec pick; then
+		echo "WARN: Can't find 'pick' command" >&2
+		return 1
+	fi
 	cd "$CODE_WORKSPACE_ROOT"
 	find=$(can_exec gfind && which gfind || which find)
 	$find . -regextype posix-egrep -maxdepth 4 \( -type d -or -type l \) \( -not -iregex '.+\/\.git(\/.*)?$' \) | pick
