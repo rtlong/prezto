@@ -8,6 +8,8 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
 	source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
+export CODE_WORKSPACE_ROOT=${CODE_WORKSPACE_ROOT:-$HOME/Code}
+
 function can_exec {
 	command -v $1 2>&1 >/dev/null
 }
@@ -18,13 +20,9 @@ alias goroot='cd $(go env GOROOT)'
 alias goproj='gopath; cd src/github.com/rtlong/'
 alias watch-rails-log='tail -f log/development.log'
 alias reload='source ~/.zshrc'
-# alias todo='todo.sh'
-# alias t='todo.sh'
-# alias vitodo='vim $todotxt'
 can_exec hub && alias git='hub'
 alias ssh-coreos-forward-ports='ssh -L 8182:localhost:8182 -L 2379:localhost:2379 -l core -o "IdentitiesOnly no"'
-
-alias gg='cd ~/Code/Work/GoodGuide'
+alias gg='cd ${CODE_WORKSPACE_GOODGUIDE:-$CODE_WORKSPACE_ROOT}'
 alias ggdep='gg; cd goodguide-deploy'
 alias ggpass='gg; cd shared-credentials'
 
@@ -46,21 +44,28 @@ function set-window-title {
 	tmux rename-window "$(basename "$PWD")"
 }
 
+function choose-code-project {
+	can_exec pick || return 1
+	cd "$CODE_WORKSPACE_ROOT"
+	find=$(can_exec gfind && which gfind || which find)
+	$find . -regextype posix-egrep -maxdepth 4 \( -type d -or -type l \) \( -not -iregex '.+\/\.git(\/.*)?$' \) | pick
+}
+
 function cdp {
-	cd ~/Code/"$(cd ~/Code; gfind . -regextype posix-egrep -maxdepth 4 \( -type d -or -type l \) \( -not -iregex '.+\/\.git(\/.*)?$' \) | RBENV_VERSION=system selecta)"
+	cd "${CODE_WORKSPACE_ROOT}/$(choose-code-project)"
 	set-window-title
 }
 
-function atm-mode {
-	tmux-named-session ATM ~/Code/Work/AllTheMusic
+function bridgefog-mode {
+	tmux-named-session bridgefog "${CODE_WORKSPACE_BRIDGEFOG:-$CODE_WORKSPACE_ROOT}"
 }
 
 function gg-mode {
-	tmux-named-session GG ~/Code/Work/GoodGuide
+	tmux-named-session GG "${CODE_WORKSPACE_GOODGUIDE:-$CODE_WORKSPACE_ROOT}"
 }
 
 function tmux-named-session {
-	TMUX='' tmux new-session -d -s $1 -c $2 2>/dev/null
+	TMUX='' tmux new-session -d -s $1 -c $2 #2>/dev/null
 	if [[ -n $TMUX ]]; then
 		tmux switch-client -t $1
 	else
@@ -81,8 +86,12 @@ function node_depcheck {
 	command comm -1 -3 /tmp/deps_{used,defined}
 }
 
-docker-inspect() {
-	docker inspect $1 | jq ".[0] ${2:+| $2}"
+function docker-inspect {
+	docker inspect "$1" | jq -r ".[0] ${2:+| $2}"
+}
+
+function json-preview-url {
+	curl -fsSL "$1" | jq -C . | less -R
 }
 
 ########################################################################
