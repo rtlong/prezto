@@ -50,8 +50,7 @@ function choose-code-project {
 		return 1
 	fi
 	cd "$CODE_WORKSPACE_ROOT"
-	find=$(can_exec gfind && which gfind || which find)
-	$find . -regextype posix-egrep -maxdepth 4 \( -type d -or -type l \) \( -not -iregex '.+\/\.git(\/.*)?$' \) | pick
+	find . -regextype posix-egrep -maxdepth 4 \( -type d -or -type l \) \( -not -iregex '.+\/\.git(\/.*)?$' \) | pick
 }
 
 function cdp {
