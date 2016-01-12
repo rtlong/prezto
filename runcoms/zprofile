@@ -30,6 +30,7 @@ path=(
 	$HOME/.local/go/bin
 	${GOPATH}/bin
 	$path
+	/usr/local/sbin
 )
 
 # Set the default Less options.
@@ -60,15 +61,11 @@ else
 	unset NVM_DIR
 fi
 
+# export GPG_TTY=$(tty)
+gpgconf --launch gpg-agent
+export SSH_AUTH_SOCK="${HOME}/.gnupg/S.gpg-agent.ssh"
+
 # Add all SSH-keys stored in OSX Keychain to the agent
 ssh-add -A >/dev/null 2>&1
 
-# existing_keys=$(ssh-add -l | awk '{ print "MD5:" $2 }')
-# for key in $HOME/.ssh/*.key; do
-#		[ -f "$key.pub" ] || ssh-keygen -f "$key" -y > "$key.pub"
-#		if ! echo "$existing_keys" | grep -q "$(ssh-keygen -E md5 -l -f "$key.pub" | awk '{ print $2 }')"; then
-#			ssh-add "$key" 2>/dev/null
-#		fi
-# done
-#
 [[ $_zsh_trace ]] && echo "<< zprofile"
