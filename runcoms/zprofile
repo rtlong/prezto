@@ -19,7 +19,7 @@ typeset -gU cdpath fpath mailpath path
 
 # Set the the list of directories that cd searches.
 # cdpath=(
-#		$cdpath
+# 	$cdpath
 # )
 
 # Set the list of directories that Zsh searches for programs.
@@ -48,17 +48,6 @@ if [ -e /.dockerinit ] || [ -n "$TMUX" ]; then
 	export TERM="screen-256color"
 else
 	export TERM="xterm-256color"
-fi
-
-if command -v direnv >/dev/null 2>&1; then
-	eval "$(direnv hook zsh)"
-fi
-
-export NVM_DIR="${NVM_DIR:-"$HOME/.nvm"}"
-if [ -s "$NVM_DIR/nvm.sh" ]; then
-	source "$NVM_DIR/nvm.sh"
-else
-	unset NVM_DIR
 fi
 
 # export GPG_TTY=$(tty)
