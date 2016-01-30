@@ -40,6 +40,10 @@ function set-window-title {
 	tmux rename-window "$(basename "$PWD")"
 }
 
+function set-iterm-tab-title {
+	echo -ne "\033]0;"$@"\007"
+}
+
 function choose-code-project {
 	if ! can_exec pick; then
 		echo "WARN: Can't find 'pick' command" >&2
