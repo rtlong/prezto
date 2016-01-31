@@ -15,4 +15,4 @@
   fi
 } &!
 
-[[ $_zsh_trace ]] && echo "<< zlogin"
+[[ $_zsh_trace ]] && echo "<< zlogin" || :

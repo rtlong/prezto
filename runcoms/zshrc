@@ -175,4 +175,7 @@ else
 	unset NVM_DIR
 fi
 
-[[ $_zsh_trace ]] && echo "<< zshrc"
+# set the tmux pane title to the basename of the working directory as a default
+set-pane-title
+
+[[ $_zsh_trace ]] && echo "<< zshrc" || :
