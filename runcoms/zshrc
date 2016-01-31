@@ -37,11 +37,16 @@ function source-env {
 }
 
 function set-window-title {
-	tmux rename-window "$(basename "$PWD")"
+	local title="${1:-$(basename "$PWD")}"
+	tmux rename-window "$title"
+}
+function set-pane-title {
+	local title="${1:-$(basename "$PWD")}"
+	printf '\033]2;%s\033\\' "$title"
 }
 
 function set-iterm-tab-title {
-	echo -ne "\033]0;"$@"\007"
+	printf '\033]0;%s\007' "$1"
 }
 
 function choose-code-project {
@@ -56,6 +61,7 @@ function choose-code-project {
 function cdp {
 	cd "${CODE_WORKSPACE_ROOT}/$(choose-code-project)"
 	set-window-title
+	set-pane-title
 }
 
 function bridgefog-mode {
