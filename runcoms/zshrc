@@ -38,7 +38,7 @@ function source-env {
 
 function set-window-title {
 	local title="${1:-$(basename "$PWD")}"
-	tmux rename-window "$title"
+	command tmux rename-window "$title"
 }
 function set-pane-title {
 	local title="${1:-$(basename "$PWD")}"
@@ -75,11 +75,18 @@ function gg-mode {
 function tmux-named-session {
 	TMUX='' tmux new-session -d -s $1 -c $2 #2>/dev/null
 	if [[ -n $TMUX ]]; then
-		tmux switch-client -t $1
+		command tmux switch-client -t $1
 	else
-		tmux attach -t $1
+		command tmux attach -t $1
 	fi
 }
+
+# wrap tmux command on OSX to ensure tmux has access to clipboard
+if [[ $(uname -r) = 'Darwin' && ! ${TMUX:-} ]]; then
+	function tmux {
+		reattach-to-user-namespace tmux "$@"
+	}
+fi
 
 function newd {
 	mkdir -p "$1" && cd "$1" && set-window-title
