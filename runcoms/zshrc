@@ -24,6 +24,13 @@ alias gg='cd ${CODE_WORKSPACE_GOODGUIDE:-$CODE_WORKSPACE_ROOT}'
 alias ggdep='gg; cd goodguide-deploy'
 alias ggpass='gg; cd shared-credentials'
 
+if can_exec caffeinate; then
+	# prevent OSX system sleep during active SSH connections
+	function ssh {
+		caffeinate -i ssh "$@"
+	}
+fi
+
 function cd-to-gem-source {
 	cd `bundle show $1`
 }
@@ -82,7 +89,7 @@ function tmux-named-session {
 }
 
 # wrap tmux command on OSX to ensure tmux has access to clipboard
-if [[ $(uname -r) = 'Darwin' && ! ${TMUX:-} ]]; then
+if [[ $(uname -o) = 'Darwin' && ! ${TMUX:-} ]]; then
 	function tmux {
 		reattach-to-user-namespace tmux "$@"
 	}
