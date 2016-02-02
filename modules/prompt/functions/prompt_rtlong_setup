@@ -42,12 +42,12 @@ function prompt_rtlong_setup {
   # Use extended color pallete if available.
   if [[ $TERM = *256color* || $TERM = *rxvt* ]]; then
     _prompt_rtlong_colors=(
-      "%F{81}"  # Turquoise
-      "%F{166}" # Orange
-      "%F{135}" # Purple
-      "%F{161}" # Hotpink
-      "%F{118}" # Limegreen
-      "%F{196}" # Red
+      "%F{115}" # Turquoise
+      "%F{221}" # Orange
+      "%F{182}" # Purple
+      "%F{167}" # Hotpink
+      "%F{185}" # Limegreen
+      "%F{167}" # Red
     )
   else
     _prompt_rtlong_colors=(
